@@ -149,11 +149,11 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
         <form
             ref={formRef}
             onSubmit={handleSubmit}
-            className="flex flex-col space-y-3 p-8 relative bg-black/40 backdrop-blur-md rounded-lg shadow-xl w-full max-w-md"
+            className="flex flex-col space-y-3 p-4 sm:p-8 relative bg-black/40 backdrop-blur-md rounded-lg shadow-xl w-full max-w-md"
         >
             <div className={getInputWrapperClass('amount')}>
                 <div ref={iconRefs.amount} className="text-blue-500">
-                    <DollarSign size={24} />
+                    <DollarSign size={20} className="sm:size-24" />
                 </div>
                 <input
                     ref={inputRefs.amount}
@@ -163,13 +163,13 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
                     onFocus={(e) => handleInputFocus('amount', e)}
                     onBlur={handleInputBlur}
                     placeholder="Amount"
-                    className="flex-1 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-lg bg-white transition-all duration-300"
+                    className="flex-1 p-2 sm:p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-base sm:text-lg bg-white transition-all duration-300"
                 />
             </div>
 
             <div className={getInputWrapperClass('description')}>
                 <div ref={iconRefs.description} className="text-green-500">
-                    <FileText size={24} />
+                    <FileText size={20} className="sm:size-24" />
                 </div>
                 <input
                     ref={inputRefs.description}
@@ -179,7 +179,7 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
                     onFocus={(e) => handleInputFocus('description', e)}
                     onBlur={handleInputBlur}
                     placeholder="Description"
-                    className="flex-1 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent text-lg bg-white transition-all duration-300"
+                    className="flex-1 p-2 sm:p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent text-base sm:text-lg bg-white transition-all duration-300"
                 />
             </div>
 
@@ -187,15 +187,14 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
                 ref={buttonRef}
                 type="submit"
                 onClick={addTransaction}
-                className="relative overflow-hidden p-4 bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transform transition-all duration-300 text-lg font-medium hover:shadow-lg active:scale-95"
+                className="relative overflow-hidden p-2 sm:p-4 bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transform transition-all duration-300 text-base sm:text-lg font-medium hover:shadow-lg active:scale-95"
             >
                 <div className="flex items-center justify-center space-x-2">
-                    <Sparkles size={20} />
+                    <Sparkles size={16} className="sm:size-20" />
                     <span>Add Transaction</span>
-                    <Sparkles size={20} />
+                    <Sparkles size={16} className="sm:size-20" />
                 </div>
             </button>
         </form>
-
     );
 }
