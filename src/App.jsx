@@ -24,7 +24,7 @@ const FinanceTracker = () => {
     amount: '',
     description: '',
     category: '',
-    monthlyBudget: 15000000,
+    monthlyBudget: 1500000,
     notificationsOn: true,
     showConfetti: false,
   });
