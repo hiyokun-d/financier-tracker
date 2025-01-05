@@ -6,12 +6,20 @@ import { BudgetStatus } from './components/BudgetStatus';
 const FinanceTracker = () => {
   const [state, setState] = useState({
     transactions: [
-      { amount: 100000, description: 'Groceries', category: 'food', date: new Date().toISOString() },
-      { amount: 50000, description: 'Rent', category: 'housing', date: new Date().toISOString() },
-      { amount: 2000, description: 'Internet Bill', category: 'utilities', date: new Date().toISOString() },
-      { amount: 1500, description: 'Dinner', category: 'food', date: new Date().toISOString() },
-      { amount: 3000, description: 'Movie Tickets', category: 'entertainment', date: new Date().toISOString() },
-      { amount: 10000, description: 'Shopping', category: 'miscellaneous', date: new Date().toISOString() }
+      // { amount: 100000, description: 'Groceries', category: 'food', date: new Date().toISOString() },
+      // { amount: 50000, description: 'Rent', category: 'housing', date: new Date().toISOString() },
+      // { amount: 2000, description: 'Internet Bill', category: 'utilities', date: new Date().toISOString() },
+      // { amount: 1500, description: 'Dinner', category: 'food', date: new Date().toISOString() },
+      // { amount: 3000, description: 'Movie Tickets', category: 'entertainment', date: new Date().toISOString() },
+      // { amount: 10000, description: 'Shopping', category: 'miscellaneous', date: new Date().toISOString() }
+    ],
+    transactionsEachDay: [
+      // { date: '01/01/2021', amount: 100000 },
+      // { date: '01/01/2021', amount: 50000 },
+      // { date: '01/01/2021', amount: 2000 },
+      // { date: '01/01/2021', amount: 1500 },
+      // { date: '01/01/2021', amount: 3000 },
+      // { date: '01/01/2021', amount: 10000 }
     ],
     amount: '',
     description: '',
@@ -22,24 +30,30 @@ const FinanceTracker = () => {
   });
 
   const addTransaction = () => {
-    if (!state.amount || !state.description || !state.category) return;
-    console.log("hello world!")
+    if (!state.amount || !state.description) return;
+    const cleanedAmount = state.amount.replace(/[^\d,]/g, '').replace(',', '.'); // Replace commas for decimal
+    const parsedAmount = parseFloat(cleanedAmount); // Now parse the cleaned amount
+
+    console.log(parsedAmount, state.description);
+
     const newTransaction = {
       id: Date.now(),
-      amount: parseFloat(state.amount),
+      amount: parsedAmount,
       description: state.description,
-      category: state.category,
-      date: new Date().toISOString()
+      date: new Date().toISOString(),
     };
 
-    setState(prev => ({
-      ...prev,
-      transactions: [...prev.transactions, newTransaction],
+    const updatedTransactions = [...state.transactions, newTransaction];
+    const updatedState = {
+      ...state,
+      transactions: updatedTransactions,
       amount: '',
       description: '',
       category: '',
-      showConfetti: prev.transactions.length % 5 === 0,
-    }));
+      showConfetti: updatedTransactions.length % 5 === 0,
+    };
+
+    setState(updatedState);
 
     if (state.transactions.length % 5 === 0) {
       setTimeout(() => setState(prev => ({ ...prev, showConfetti: false })), 3000);
