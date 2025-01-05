@@ -73,9 +73,9 @@ const FinanceTracker = () => {
   return (
     <div className="from-blue-950 to-blue-600 max-w-4xl mx-auto  space-y-6">
       <Header notificationsOn={state.notificationsOn} setNotificationsOn={() => setState(prev => ({ ...prev, notificationsOn: !prev.notificationsOn }))} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <BudgetStatus totalSpent={totalSpent} remaining={remaining} monthlyBudget={state.monthlyBudget} />
-      </div>
+      </div> */}
 
       <TransactionForm
         amount={state.amount}

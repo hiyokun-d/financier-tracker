@@ -148,11 +148,11 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
     ${activeInput === inputName ? 'scale-105' : ''}
   `;
     return (
-        <div className='flex justify-center items-center w-screen px-4 py-3 backdrop-blur-sm shadow-sm'>
+        <div className='flex justify-center items-center w-screen px-4 py-3 backdrop-blur-sm shadow-sm x'>
             <form
                 ref={formRef}
                 onSubmit={handleSubmit}
-                className="flex flex-col space-y-6 p-8 relative bg-black/40 backdrop-blur-md rounded-lg shadow-xl"
+                className="flex flex-col space-y-3 p-8 relative bg-black/40 backdrop-blur-md rounded-lg shadow-xl"
             >
                 <div className={getInputWrapperClass('amount')}>
                     <div ref={iconRefs.amount} className="text-blue-500">
