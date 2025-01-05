@@ -65,7 +65,7 @@ export const Header = ({ notificationsOn, setNotificationsOn }) => {
                 </div>
                 <h1
                     ref={titleRef}
-                    className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-300 text-transparent bg-clip-text"
+                    className="text-xl md:text-2xl w-fit font-bold bg-gradient-to-r from-blue-600 to-blue-300 text-transparent bg-clip-text"
                 >
                     Welcome! Hiyo
                 </h1>
