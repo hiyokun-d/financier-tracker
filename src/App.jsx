@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { TransactionForm } from './components/TransactionForm';
+import { BudgetStatus } from './components/BudgetStatus';
 
 const FinanceTracker = () => {
   const [state, setState] = useState({
-    transactions: [],
+    transactions: [
+      { amount: 100000, description: 'Groceries', category: 'food', date: new Date().toISOString() },
+      { amount: 50000, description: 'Rent', category: 'housing', date: new Date().toISOString() },
+      { amount: 2000, description: 'Internet Bill', category: 'utilities', date: new Date().toISOString() },
+      { amount: 1500, description: 'Dinner', category: 'food', date: new Date().toISOString() },
+      { amount: 3000, description: 'Movie Tickets', category: 'entertainment', date: new Date().toISOString() },
+      { amount: 10000, description: 'Shopping', category: 'miscellaneous', date: new Date().toISOString() }
+    ],
     amount: '',
     description: '',
     category: '',
-    monthlyBudget: 1000,
+    monthlyBudget: 15000000,
     notificationsOn: true,
     showConfetti: false,
   });
@@ -63,8 +71,12 @@ const FinanceTracker = () => {
   const remaining = state.monthlyBudget - totalSpent;
 
   return (
-    <div className="max-w-4xl mx-auto p-4 space-y-6">
+    <div className="from-blue-950 to-blue-600 max-w-4xl mx-auto  space-y-6">
       <Header notificationsOn={state.notificationsOn} setNotificationsOn={() => setState(prev => ({ ...prev, notificationsOn: !prev.notificationsOn }))} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <BudgetStatus totalSpent={totalSpent} remaining={remaining} monthlyBudget={state.monthlyBudget} />
+      </div>
+
       <TransactionForm
         amount={state.amount}
         description={state.description}
@@ -75,6 +87,10 @@ const FinanceTracker = () => {
         addTransaction={addTransaction}
       />
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <BudgetStatus totalSpent={totalSpent} remaining={remaining} monthlyBudget={state.monthlyBudget} />
+        {/* <SpendingByCategory getCategoryData={getCategoryData} /> */}
+      </div>
     </div>
   );
 };

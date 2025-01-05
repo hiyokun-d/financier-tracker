@@ -54,7 +54,7 @@ export const Header = ({ notificationsOn, setNotificationsOn }) => {
     };
 
     return (
-        <div className="flex justify-between items-center w-full px-4 py-3 bg-white/80 backdrop-blur-sm fixed top-0 z-50 shadow-sm">
+        <div className="flex justify-between items-center w-full px-3 py-3 bg-white/80 backdrop-blur-sm fixed top-0 z-50 shadow-sm">
             <div className="flex items-center space-x-3">
                 <div ref={logoRef} className="w-12 h-12 md:w-16 md:h-16 overflow-hidden rounded-full">
                     <img
