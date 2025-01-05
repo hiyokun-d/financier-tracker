@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import anime from 'animejs';
-import { Sparkles, DollarSign, Tag, FileText } from 'lucide-react';
+import { Sparkles, DollarSign, FileText } from 'lucide-react';
 
 export const TransactionForm = ({ amount, description, category, setAmount, setDescription, setCategory, addTransaction }) => {
     const formRef = useRef(null);
@@ -8,13 +8,11 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
     const inputRefs = {
         amount: useRef(null),
         description: useRef(null),
-        // category: useRef(null)
     };
     const buttonRef = useRef(null);
     const iconRefs = {
         amount: useRef(null),
         description: useRef(null),
-        // category: useRef(null)
     };
 
     const formatAmount = (value) => {
@@ -76,7 +74,7 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
         container.style.pointerEvents = 'none';
         document.body.appendChild(container);
 
-        const particles = Array.from({ length: 15 }, () => {
+        const particles = Array.from({ length: 5 }, () => {
             const particle = document.createElement('div');
             particle.style.position = 'absolute';
             particle.style.left = `${x}px`;
@@ -137,7 +135,7 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
 
         // Create explosion of particles
         const rect = buttonRef.current.getBoundingClientRect();
-        const colors = ['#3B82F6', '#10B981', '#8B5CF6'];
+        const colors = ['#ffff', '#10B981', '#8B5CF6'];
         colors.forEach(color => createParticles(rect.left + rect.width / 2, rect.top + rect.height / 2, color));
 
         addTransaction(e);
@@ -148,11 +146,11 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
     ${activeInput === inputName ? 'scale-105' : ''}
   `;
     return (
-        <div className='flex justify-center items-center w-screen px-4 py-3 backdrop-blur-sm shadow-sm x'>
+        <div className='flex justify-center items-center w-full px-4 py-3 backdrop-blur-sm shadow-sm'>
             <form
                 ref={formRef}
                 onSubmit={handleSubmit}
-                className="flex flex-col space-y-3 p-8 relative bg-black/40 backdrop-blur-md rounded-lg shadow-xl"
+                className="flex flex-col space-y-3 p-8 relative bg-black/40 backdrop-blur-md rounded-lg shadow-xl w-full max-w-md"
             >
                 <div className={getInputWrapperClass('amount')}>
                     <div ref={iconRefs.amount} className="text-blue-500">
@@ -178,7 +176,7 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
                         ref={inputRefs.description}
                         type="text"
                         value={description}
-                        onChange={handleInputChange}
+                        onChange={(e) => setDescription(e.target.value)}
                         onFocus={(e) => handleInputFocus('description', e)}
                         onBlur={handleInputBlur}
                         placeholder="Description"
@@ -186,25 +184,10 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
                     />
                 </div>
 
-                {/* <div className={getInputWrapperClass('category')}>
-                    <div ref={iconRefs.category} className="text-purple-500">
-                        <Tag size={24} />
-                    </div>
-                    <input
-                        ref={inputRefs.category}
-                        type="text"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        onFocus={(e) => handleInputFocus('category', e)}
-                        onBlur={handleInputBlur}
-                        placeholder="Category"
-                        className="flex-1 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent text-lg bg-white transition-all duration-300"
-                    />
-                </div> */}
-
                 <button
                     ref={buttonRef}
                     type="submit"
+                    onClick={addTransaction}
                     className="relative overflow-hidden p-4 bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transform transition-all duration-300 text-lg font-medium hover:shadow-lg active:scale-95"
                 >
                     <div className="flex items-center justify-center space-x-2">

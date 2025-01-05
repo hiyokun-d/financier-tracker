@@ -55,7 +55,7 @@ export const Header = ({ notificationsOn, setNotificationsOn }) => {
 
     return (
         <div className="flex justify-between items-center w-full px-3 py-3 bg-white/80 backdrop-blur-sm fixed top-0 z-50 shadow-sm">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 overflow-y-hidden">
                 <div ref={logoRef} className="w-12 h-12 md:w-16 md:h-16 overflow-hidden rounded-full">
                     <img
                         src="/logo.webp"
@@ -65,7 +65,7 @@ export const Header = ({ notificationsOn, setNotificationsOn }) => {
                 </div>
                 <h1
                     ref={titleRef}
-                    className="text-xl md:text-2xl w-fit font-bold bg-gradient-to-r from-blue-600 to-blue-300 text-transparent bg-clip-text"
+                    className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-300 text-transparent bg-clip-text"
                 >
                     Welcome! Hiyo
                 </h1>

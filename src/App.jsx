@@ -23,7 +23,7 @@ const FinanceTracker = () => {
 
   const addTransaction = () => {
     if (!state.amount || !state.description || !state.category) return;
-
+    console.log("hello world!")
     const newTransaction = {
       id: Date.now(),
       amount: parseFloat(state.amount),
