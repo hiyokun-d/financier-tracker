@@ -149,7 +149,7 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
         <form
             ref={formRef}
             onSubmit={handleSubmit}
-            className="flex flex-col space-y-3 p-4 sm:p-8 relative bg-black/40 backdrop-blur-md rounded-lg shadow-xl w-full max-w-md"
+            className="flex flex-col space-y-3 p-4 sm:p-8 relative bg-black/40 backdrop-blur-md rounded-lg shadow-xl w-screen max-w-md"
         >
             <div className={getInputWrapperClass('amount')}>
                 <div ref={iconRefs.amount} className="text-blue-500">
