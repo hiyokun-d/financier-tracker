@@ -121,6 +121,17 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
         setActiveInput(null);
     };
 
+    const handleKeyDown = (e, field) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (field === 'amount') {
+                inputRefs.description.current.focus();
+            } else if (field === 'description') {
+                addTransaction();
+            }
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -161,6 +172,7 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
                     value={amount}
                     onChange={handleInputChange}
                     onFocus={(e) => handleInputFocus('amount', e)}
+                    onKeyDown={(e) => handleKeyDown(e, 'amount')}
                     onBlur={handleInputBlur}
                     placeholder="Amount"
                     className="flex-1 p-2 sm:p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-base sm:text-lg bg-white transition-all duration-300"

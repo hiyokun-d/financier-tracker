@@ -91,6 +91,11 @@ const FinanceTracker = () => {
         <BudgetStatus totalSpent={totalSpent} remaining={remaining} monthlyBudget={state.monthlyBudget} />
       </div> */}
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <BudgetStatus totalSpent={totalSpent} remaining={remaining} monthlyBudget={state.monthlyBudget} />
+        {/* <SpendingByCategory getCategoryData={getCategoryData} /> */}
+      </div>
+
       <TransactionForm
         amount={state.amount}
         description={state.description}
@@ -101,10 +106,7 @@ const FinanceTracker = () => {
         addTransaction={addTransaction}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <BudgetStatus totalSpent={totalSpent} remaining={remaining} monthlyBudget={state.monthlyBudget} />
-        {/* <SpendingByCategory getCategoryData={getCategoryData} /> */}
-      </div>
+
     </div>
   );
 };
