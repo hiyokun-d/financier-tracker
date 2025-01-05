@@ -135,72 +135,70 @@ export const TransactionForm = ({ amount, description, category, setAmount, setD
   `;
 
     return (
-        <div className='flex justify-between items-center w-full px-4 py-3 bg-white/80 backdrop-blur-sm shadow-sm'>
-            <form
-                ref={formRef}
-                onSubmit={handleSubmit}
-                className="flex flex-col space-y-6 p-4 relative"
+        <form
+            ref={formRef}
+            onSubmit={handleSubmit}
+            className="flex justify-between items-center w-full px-4 py-3 bg-white/80 backdrop-blur-sm shadow-sm flex-col gap-3"
+        >
+            <div className={getInputWrapperClass('amount')}>
+                <div ref={iconRefs.amount} className="text-blue-500">
+                    <DollarSign size={24} />
+                </div>
+                <input
+                    ref={inputRefs.amount}
+                    type="number"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    onFocus={(e) => handleInputFocus('amount', e)}
+                    onBlur={handleInputBlur}
+                    placeholder="Amount"
+                    className="flex-1 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-lg bg-white transition-all duration-300"
+                />
+            </div>
+
+            <div className={getInputWrapperClass('description')}>
+                <div ref={iconRefs.description} className="text-green-500">
+                    <FileText size={24} />
+                </div>
+                <input
+                    ref={inputRefs.description}
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    onFocus={(e) => handleInputFocus('description', e)}
+                    onBlur={handleInputBlur}
+                    placeholder="Description"
+                    className="flex-1 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent text-lg bg-white transition-all duration-300"
+                />
+            </div>
+
+            <div className={getInputWrapperClass('category')}>
+                <div ref={iconRefs.category} className="text-purple-500">
+                    <Tag size={24} />
+                </div>
+                <input
+                    ref={inputRefs.category}
+                    type="text"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    onFocus={(e) => handleInputFocus('category', e)}
+                    onBlur={handleInputBlur}
+                    placeholder="Category"
+                    className="flex-1 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent text-lg bg-white transition-all duration-300"
+                />
+            </div>
+
+            <button
+                ref={buttonRef}
+                type="submit"
+                className="relative overflow-hidden p-4 bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transform transition-all duration-300 text-lg font-medium hover:shadow-lg active:scale-95"
             >
-                <div className={getInputWrapperClass('amount')}>
-                    <div ref={iconRefs.amount} className="text-blue-500">
-                        <DollarSign size={24} />
-                    </div>
-                    <input
-                        ref={inputRefs.amount}
-                        type="number"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        onFocus={(e) => handleInputFocus('amount', e)}
-                        onBlur={handleInputBlur}
-                        placeholder="Amount"
-                        className="flex-1 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-lg bg-white transition-all duration-300"
-                    />
+                <div className="flex items-center justify-center space-x-2">
+                    <Sparkles size={20} />
+                    <span>Add Transaction</span>
+                    <Sparkles size={20} />
                 </div>
-
-                <div className={getInputWrapperClass('description')}>
-                    <div ref={iconRefs.description} className="text-green-500">
-                        <FileText size={24} />
-                    </div>
-                    <input
-                        ref={inputRefs.description}
-                        type="text"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        onFocus={(e) => handleInputFocus('description', e)}
-                        onBlur={handleInputBlur}
-                        placeholder="Description"
-                        className="flex-1 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent text-lg bg-white transition-all duration-300"
-                    />
-                </div>
-
-                <div className={getInputWrapperClass('category')}>
-                    <div ref={iconRefs.category} className="text-purple-500">
-                        <Tag size={24} />
-                    </div>
-                    <input
-                        ref={inputRefs.category}
-                        type="text"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        onFocus={(e) => handleInputFocus('category', e)}
-                        onBlur={handleInputBlur}
-                        placeholder="Category"
-                        className="flex-1 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent text-lg bg-white transition-all duration-300"
-                    />
-                </div>
-
-                <button
-                    ref={buttonRef}
-                    type="submit"
-                    className="relative overflow-hidden p-4 bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transform transition-all duration-300 text-lg font-medium hover:shadow-lg active:scale-95"
-                >
-                    <div className="flex items-center justify-center space-x-2">
-                        <Sparkles size={20} />
-                        <span>Add Transaction</span>
-                        <Sparkles size={20} />
-                    </div>
-                </button>
-            </form>
-        </div>
+            </button>
+        </form>
     );
 }
