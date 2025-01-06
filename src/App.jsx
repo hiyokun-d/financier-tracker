@@ -3,6 +3,14 @@ import { Header } from './components/Header';
 import { TransactionForm } from './components/TransactionForm';
 import { BudgetStatus } from './components/BudgetStatus';
 
+// TODO: UPDATING THE SAVE TRANSACTION FUNCTION
+// 1. we'll gonna save the transaction each we add new transaction
+// 2. save the transaction to the local storage
+// 3. load the transaction from the local storage
+// 4. update the state with the loaded transaction
+// 5. save the transaction each day to the local storage
+
+
 const FinanceTracker = () => {
   const [state, setState] = useState({
     transactions: [
