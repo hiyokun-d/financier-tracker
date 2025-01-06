@@ -174,7 +174,7 @@ export const BudgetStatus = ({ totalSpent, remaining, monthlyBudget }) => {
                 <CardTitle ref={titleRef} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                         <Wallet className={`w-6 h-6 ${isOverBudget ? 'text-red-500 animate-bounce' : 'text-blue-500'}`} />
-                        <span>{isOverBudget ? 'Peringatan Anggaran!' : 'Status Anggaran'}</span>
+                        <span>{isOverBudget ? 'WARNING!!!' : 'Status Keuangan'}</span>
                     </div>
                     {isOverBudget && (
                         <div className="flex items-center space-x-2">
@@ -215,7 +215,7 @@ export const BudgetStatus = ({ totalSpent, remaining, monthlyBudget }) => {
                             ref={warningTextRef}
                             className="text-red-500 font-medium text-center animate-pulse"
                         >
-                            ⚠️ Anda telah melampaui batas anggaran bulanan! ⚠️
+                            OVER BUDGET! TRY NEW STRATEGY TO SAVE MONEY
                         </div>
                     )}
 
@@ -239,7 +239,7 @@ export const BudgetStatus = ({ totalSpent, remaining, monthlyBudget }) => {
                         </div>
                         <p className={`text-sm ${isOverBudget ? 'text-red-500 font-medium' : 'text-gray-500'} text-right`}>
                             {isOverBudget
-                                ? '⚠️ Melebihi batas anggaran!'
+                                ? 'HATI HATI! Anda telah melebihi budget bulanan Anda.'
                                 : `${Math.min(Math.round((totalSpent / monthlyBudget) * 100), 100)}% terpakai`
                             }
                         </p>
