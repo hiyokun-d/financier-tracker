@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { TransactionForm } from './components/TransactionForm';
 import { BudgetStatus } from './components/BudgetStatus';
+import { addCookie, saveState, updateState, loadState } from './functions/cookies';
 
 // TODO: UPDATING THE SAVE TRANSACTION FUNCTION
 // 1. we'll gonna save the transaction each we add new transaction
@@ -10,25 +11,13 @@ import { BudgetStatus } from './components/BudgetStatus';
 // 4. update the state with the loaded transaction
 // 5. save the transaction each day to the local storage
 
+// Load the cookie from local storage
+const cookie = loadState();
 
 const FinanceTracker = () => {
   const [state, setState] = useState({
-    transactions: [
-      // { amount: 100000, description: 'Groceries', category: 'food', date: new Date().toISOString() },
-      // { amount: 50000, description: 'Rent', category: 'housing', date: new Date().toISOString() },
-      // { amount: 2000, description: 'Internet Bill', category: 'utilities', date: new Date().toISOString() },
-      // { amount: 1500, description: 'Dinner', category: 'food', date: new Date().toISOString() },
-      // { amount: 3000, description: 'Movie Tickets', category: 'entertainment', date: new Date().toISOString() },
-      // { amount: 10000, description: 'Shopping', category: 'miscellaneous', date: new Date().toISOString() }
-    ],
-    transactionsEachDay: [
-      // { date: '01/01/2021', amount: 100000 },
-      // { date: '01/01/2021', amount: 50000 },
-      // { date: '01/01/2021', amount: 2000 },
-      // { date: '01/01/2021', amount: 1500 },
-      // { date: '01/01/2021', amount: 3000 },
-      // { date: '01/01/2021', amount: 10000 }
-    ],
+    transactions: [],
+    transactionsEachDay: [],
     amount: '',
     description: '',
     category: '',
@@ -37,13 +26,29 @@ const FinanceTracker = () => {
     showConfetti: false,
   });
 
+  // Load the saved state from cookie when the component mounts
+  useEffect(() => {
+    if (cookie) {
+      console.log("Loaded state from cookie:", cookie);
+      setState(cookie);
+    }
+  }, []);
+
+  // Save the updated state to the cookie whenever the state changes
+  useEffect(() => {
+    saveState(state);
+  }, [state]);
+
   const addTransaction = () => {
     if (!state.amount || !state.description) return;
+
+    // Clean the amount, removing any commas and invalid characters
     const cleanedAmount = state.amount.replace(/[^\d,]/g, '').replace(',', '.'); // Replace commas for decimal
-    const parsedAmount = parseFloat(cleanedAmount); // Now parse the cleaned amount
+    const parsedAmount = parseFloat(cleanedAmount); // Parse the cleaned amount as a float
 
     console.log(parsedAmount, state.description);
 
+    // Create a new transaction
     const newTransaction = {
       id: Date.now(),
       amount: parsedAmount,
@@ -51,6 +56,7 @@ const FinanceTracker = () => {
       date: new Date().toISOString(),
     };
 
+    // Update transactions state
     const updatedTransactions = [...state.transactions, newTransaction];
     const updatedState = {
       ...state,
@@ -63,9 +69,13 @@ const FinanceTracker = () => {
 
     setState(updatedState);
 
-    if (state.transactions.length % 5 === 0) {
+    // Show confetti every 5th transaction
+    if (updatedTransactions.length % 5 === 0) {
       setTimeout(() => setState(prev => ({ ...prev, showConfetti: false })), 3000);
     }
+
+    // Update the state with the new transaction and save it
+    updateState(state, setState)(updatedState);
   };
 
   const getCategoryData = () => {
@@ -94,13 +104,17 @@ const FinanceTracker = () => {
 
   return (
     <div className="from-blue-950 to-blue-600 max-w-4xl mx-auto  space-y-6">
-      <Header notificationsOn={state.notificationsOn} setNotificationsOn={() => setState(prev => ({ ...prev, notificationsOn: !prev.notificationsOn }))} />
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <BudgetStatus totalSpent={totalSpent} remaining={remaining} monthlyBudget={state.monthlyBudget} />
-      </div> */}
+      <Header
+        notificationsOn={state.notificationsOn}
+        setNotificationsOn={() => setState(prev => ({ ...prev, notificationsOn: !prev.notificationsOn }))}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <BudgetStatus totalSpent={totalSpent} remaining={remaining} monthlyBudget={state.monthlyBudget} />
+        <BudgetStatus
+          totalSpent={totalSpent}
+          remaining={remaining}
+          monthlyBudget={state.monthlyBudget}
+        />
         {/* <SpendingByCategory getCategoryData={getCategoryData} /> */}
       </div>
 
@@ -113,8 +127,6 @@ const FinanceTracker = () => {
         setCategory={(category) => setState(prev => ({ ...prev, category }))}
         addTransaction={addTransaction}
       />
-
-
     </div>
   );
 };
