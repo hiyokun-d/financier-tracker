@@ -2,19 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { TransactionForm } from './components/TransactionForm';
 import { BudgetStatus } from './components/BudgetStatus';
-import { addCookie, saveState, updateState, loadState } from './functions/cookies';
-
-// TODO: UPDATING THE SAVE TRANSACTION FUNCTION
-// 1. we'll gonna save the transaction each we add new transaction
-// 2. save the transaction to the local storage
-// 3. load the transaction from the local storage
-// 4. update the state with the loaded transaction
-// 5. save the transaction each day to the local storage
+import { saveState, updateState, loadState } from './functions/cookies';
+import LogsContainer, { LogsFinance } from './components/LogsFinancie';
 
 // Load the cookie from local storage
 const cookie = loadState();
 
 const FinanceTracker = () => {
+  const [config, setConfig] = useState({
+    notificationsOn: true,
+  });
+
   const [state, setState] = useState({
     transactions: [],
     transactionsEachDay: [],
@@ -22,14 +20,13 @@ const FinanceTracker = () => {
     description: '',
     category: '',
     monthlyBudget: 1500000,
-    notificationsOn: true,
     showConfetti: false,
   });
 
   // Load the saved state from cookie when the component mounts
   useEffect(() => {
     if (cookie) {
-      console.log("Loaded state from cookie:", cookie);
+      // console.log("Loaded state from cookie:", cookie);
       setState(cookie);
     }
   }, []);
@@ -71,7 +68,7 @@ const FinanceTracker = () => {
 
     // Show confetti every 5th transaction
     if (updatedTransactions.length % 5 === 0) {
-      setTimeout(() => setState(prev => ({ ...prev, showConfetti: false })), 3000);
+      setTimeout(() => setConfig(prev => ({ ...prev, showConfetti: false })), 3000);
     }
 
     // Update the state with the new transaction and save it
@@ -105,11 +102,12 @@ const FinanceTracker = () => {
   return (
     <div className="from-blue-950 to-blue-600 max-w-4xl mx-auto  space-y-6">
       <Header
-        notificationsOn={state.notificationsOn}
-        setNotificationsOn={() => setState(prev => ({ ...prev, notificationsOn: !prev.notificationsOn }))}
+        notificationsOn={config.notificationsOn}
+        setNotificationsOn={() => setConfig(prev => ({ ...prev, notificationsOn: !prev.notificationsOn }))}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
         <BudgetStatus
           totalSpent={totalSpent}
           remaining={remaining}
@@ -126,6 +124,18 @@ const FinanceTracker = () => {
         setDescription={(description) => setState(prev => ({ ...prev, description }))}
         setCategory={(category) => setState(prev => ({ ...prev, category }))}
         addTransaction={addTransaction}
+      />
+
+      {/* GRAPH */}
+
+      <LogsContainer
+        transactions={state.transactions}
+        onDeleteData={(id) =>
+          setState(prev => ({
+            ...prev,
+            transactions: prev.transactions.filter(t => t.id !== id) // Remove the transaction with the given id
+          }))
+        }
       />
     </div>
   );
