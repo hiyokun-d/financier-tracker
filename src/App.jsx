@@ -3,7 +3,7 @@ import { Header } from './components/Header';
 import { TransactionForm } from './components/TransactionForm';
 import { BudgetStatus } from './components/BudgetStatus';
 import { saveState, updateState, loadState } from './functions/cookies';
-import LogsContainer, { LogsFinance } from './components/LogsFinancie';
+import LogsContainer from './components/LogsFinancie';
 
 // Load the cookie from local storage
 const cookie = loadState();
@@ -15,7 +15,16 @@ const FinanceTracker = () => {
 
   const [state, setState] = useState({
     transactions: [],
-    transactionsEachDay: [],
+    transactionsEachDay: [
+      // {
+      //   amount: 2000,
+      //   date: "19, jan, 2025"
+      // },
+      // {
+      //   amount: 2002,
+      //   date: "18, jan, 2025"
+      // }
+    ], // the total amount of transactions each day
     amount: '',
     description: '',
     category: '',
@@ -55,9 +64,29 @@ const FinanceTracker = () => {
 
     // Update transactions state
     const updatedTransactions = [...state.transactions, newTransaction];
+
+    // Update the transactionsEachDay state
+    const transactionDate = new Date(newTransaction.date).toLocaleDateString();
+    const updatedTransactionsEachDay = [...state.transactionsEachDay];
+
+    // Find if the date already exists in transactionsEachDay
+    const dayEntryIndex = updatedTransactionsEachDay.findIndex(t => t.date === transactionDate);
+
+    if (dayEntryIndex >= 0) {
+      // If the date exists, update the amount for that day
+      updatedTransactionsEachDay[dayEntryIndex].amount += parsedAmount;
+    } else {
+      // If the date does not exist, add a new entry
+      updatedTransactionsEachDay.push({
+        date: transactionDate,
+        amount: parsedAmount
+      });
+    }
+
     const updatedState = {
       ...state,
       transactions: updatedTransactions,
+      transactionsEachDay: updatedTransactionsEachDay, // Update this part
       amount: '',
       description: '',
       category: '',
@@ -71,6 +100,7 @@ const FinanceTracker = () => {
       setTimeout(() => setConfig(prev => ({ ...prev, showConfetti: false })), 3000);
     }
 
+    console.log(updateState.transactionsEachDay)
     // Update the state with the new transaction and save it
     updateState(state, setState)(updatedState);
   };
@@ -98,7 +128,9 @@ const FinanceTracker = () => {
 
   const totalSpent = state.transactions.reduce((sum, t) => sum + t.amount, 0);
   const remaining = state.monthlyBudget - totalSpent;
+  const theTotalOfTheDay = state.transactionsEachDay.reduce((sum, t) => sum + t.amount, 0);
 
+  console.log(state.transactionsEachDay)
   return (
     <div className="from-blue-950 to-blue-600 max-w-4xl mx-auto  space-y-6">
       <Header
@@ -136,6 +168,7 @@ const FinanceTracker = () => {
             transactions: prev.transactions.filter(t => t.id !== id) // Remove the transaction with the given id
           }))
         }
+        totalOfEachDay={theTotalOfTheDay}
       />
     </div>
   );
