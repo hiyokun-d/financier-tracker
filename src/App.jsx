@@ -5,9 +5,8 @@ import { BudgetStatus } from './components/BudgetStatus';
 import { saveState, updateState, loadState } from './functions/cookies';
 import LogsContainer from './components/LogsFinancie';
 
-// TODO: ADD RESET BUTTON TO RESET THE MONTHLY BUDGET 
-// TODO: MAKE A NEW INPUT SO WE CAN CHANGE THE BUDGET WHATEVER WE WANT
-// TODO: FIX THE STYLE CAUSE IT'S ALREADY BURN MY EYES FCKKKKK HELPPPP
+// TODO: ADD ALL THE LOGS FOR THE SPENDING MECHANISM
+// TODO ADD THE GRAPH FOR THE SPENDING MECHANISM
 
 // Load the cookie from local storage
 const cookie = loadState();
@@ -100,37 +99,31 @@ const FinanceTracker = () => {
     updateState(state, setState)(updatedState);
   };
 
-  const getCategoryData = () => {
-    const data = {};
-    state.transactions.forEach(t => {
-      data[t.category] = (data[t.category] || 0) + t.amount;
-    });
-    return Object.entries(categories).map(([key, cat]) => ({
-      name: cat.label,
-      value: data[key] || 0,
-      color: cat.color
-    }));
-  };
-
-  const getSpendingData = () => {
-    const data = {};
-    state.transactions.forEach(t => {
-      const date = new Date(t.date).toLocaleDateString();
-      data[date] = (data[date] || 0) + t.amount;
-    });
-    return Object.entries(data).map(([date, amount]) => ({ date, amount }));
-  };
-
-  const totalSpent = state.transactions.reduce((sum, t) => sum + t.amount, 0);
-  const remaining = state.monthlyBudget - totalSpent;
+  let totalSpent = state.transactions.reduce((sum, t) => sum + t.amount, 0);
+  let remaining = state.monthlyBudget - totalSpent;
   const theTotalOfTheDay = state.transactionsEachDay.reduce((sum, t) => sum + t.amount, 0);
 
-  console.log(state.transactionsEachDay)
+  const handleReset = () => {
+    totalSpent = 0;
+    remaining = state.monthlyBudget - totalSpent;
+
+    setState(prev => ({
+      ...prev,
+      transactions: [],
+      transactionsEachDay: [],
+      amount: '',
+      description: '',
+      category: '',
+      showConfetti: false,
+    }));
+  }
+
   return (
     <div className="from-blue-950 to-blue-600 max-w-4xl mx-auto  space-y-6">
       <Header
         notificationsOn={config.notificationsOn}
         setNotificationsOn={() => setConfig(prev => ({ ...prev, notificationsOn: !prev.notificationsOn }))}
+        onResetBudget={handleReset}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

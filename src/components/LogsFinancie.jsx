@@ -181,7 +181,7 @@ const TransactionSummary = ({ transactions, totalSpent }) => {
           <div className="bg-green-50 rounded-lg p-2">
             <div className="flex items-center gap-2 mb-1">
               <ArrowUpCircle className="w-4 h-4 text-green-600" />
-              <span className="text-xs text-gray-600">Today total Spent</span>
+              <span className="text-xs text-gray-600">Todayf total Spent</span>
             </div>
             <span className="text-sm font-semibold text-green-600">
               {summary.income.toLocaleString('id-ID', {
