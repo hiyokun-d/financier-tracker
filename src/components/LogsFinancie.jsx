@@ -124,15 +124,22 @@ const SearchBar = ({ onSearch, onOpenFilters, transactions }) => {
   );
 };
 
-const TransactionSummary = ({ transactions, transactionOfEachDay }) => {
+const TransactionSummary = ({ transactions, totalSpent }) => {
+  const resetTimeToMidnight = (date) => {
+    const newDate = new Date(date);
+    newDate.setHours(0, 0, 0, 0);
+    return newDate;
+  };
 
   const summary = React.useMemo(() => {
-    const today = new Date().toDateString();
+    const today = resetTimeToMidnight(new Date());
 
+    // Filter today's transactions by comparing only the date part
     const todayTransactions = transactions.filter(t =>
-      new Date(t.date).toDateString() === today
+      resetTimeToMidnight(new Date(t.date)).getTime() === today.getTime()
     );
 
+    // Calculate income and expenses for today
     const income = todayTransactions.reduce((sum, t) =>
       t.amount > 0 ? sum + t.amount : sum, 0
     );
@@ -142,17 +149,28 @@ const TransactionSummary = ({ transactions, transactionOfEachDay }) => {
     );
 
     const total = income - expenses;
-
     const transactionCount = todayTransactions.length;
+
+    // Filter previous transactions (before today)
+    const previousTransactions = transactions.filter(t =>
+      resetTimeToMidnight(new Date(t.date)).getTime() < today.getTime()
+    );
+
+    // Calculate the total spent (expenses) for previous days
+    const previousSpent = previousTransactions.reduce((sum, t) =>
+      t.amount < 0 ? sum + Math.abs(t.amount) : sum, 0
+    );
 
     return {
       income,
       expenses,
       total,
       transactionCount,
+      previousSpent,
       averageTransaction: transactionCount ? Math.abs(total / transactionCount) : 0
     };
   }, [transactions]);
+
 
   return (
     <div className="px-4 py-3 bg-white border-b border-gray-100">
@@ -163,7 +181,7 @@ const TransactionSummary = ({ transactions, transactionOfEachDay }) => {
           <div className="bg-green-50 rounded-lg p-2">
             <div className="flex items-center gap-2 mb-1">
               <ArrowUpCircle className="w-4 h-4 text-green-600" />
-              <span className="text-xs text-gray-600">Total of the day</span>
+              <span className="text-xs text-gray-600">Today total Spent</span>
             </div>
             <span className="text-sm font-semibold text-green-600">
               {summary.income.toLocaleString('id-ID', {
@@ -180,7 +198,7 @@ const TransactionSummary = ({ transactions, transactionOfEachDay }) => {
               <span className="text-xs text-gray-600">Total spend</span>
             </div>
             <span className="text-sm font-semibold text-red-600">
-              {transactionOfEachDay.toLocaleString('id-ID', {
+              {totalSpent.toLocaleString('id-ID', {
                 style: 'currency',
                 currency: 'IDR',
                 minimumFractionDigits: 0,
@@ -459,7 +477,7 @@ export const LogsFinance = ({ amount, description, date, onDelete }) => {
 //     return updatedTotalSpent;
 // }
 
-export const LogsContainer = ({ transactions: initialTransactions, onDeleteData, totalOfEachDay }) => {
+export const LogsContainer = ({ transactions: initialTransactions, onDeleteData, totalOfEachDay, totalSpentMoney }) => {
   const containerRef = useRef(null);
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -527,7 +545,7 @@ export const LogsContainer = ({ transactions: initialTransactions, onDeleteData,
         <h2 className="text-sm font-semibold text-gray-800">Recent Transactions</h2>
       </div>
 
-      <TransactionSummary transactions={initialTransactions} transactionOfEachDay={totalOfEachDay} />
+      <TransactionSummary transactions={initialTransactions} transactionOfEachDay={totalOfEachDay} totalSpent={totalSpentMoney} />
 
       <SearchBar
         onSearch={handleSearch}

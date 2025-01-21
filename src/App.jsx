@@ -5,6 +5,10 @@ import { BudgetStatus } from './components/BudgetStatus';
 import { saveState, updateState, loadState } from './functions/cookies';
 import LogsContainer from './components/LogsFinancie';
 
+// TODO: ADD RESET BUTTON TO RESET THE MONTHLY BUDGET 
+// TODO: MAKE A NEW INPUT SO WE CAN CHANGE THE BUDGET WHATEVER WE WANT
+// TODO: FIX THE STYLE CAUSE IT'S ALREADY BURN MY EYES FCKKKKK HELPPPP
+
 // Load the cookie from local storage
 const cookie = loadState();
 
@@ -15,16 +19,7 @@ const FinanceTracker = () => {
 
   const [state, setState] = useState({
     transactions: [],
-    transactionsEachDay: [
-      // {
-      //   amount: 2000,
-      //   date: "19, jan, 2025"
-      // },
-      // {
-      //   amount: 2002,
-      //   date: "18, jan, 2025"
-      // }
-    ], // the total amount of transactions each day
+    transactionsEachDay: [], // the total amount of transactions each day
     amount: '',
     description: '',
     category: '',
@@ -169,6 +164,7 @@ const FinanceTracker = () => {
           }))
         }
         totalOfEachDay={theTotalOfTheDay}
+        totalSpentMoney={totalSpent}
       />
     </div>
   );
