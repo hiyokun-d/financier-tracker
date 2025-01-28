@@ -44,7 +44,6 @@ const FinanceTracker = () => {
     }
   }, [state]);
 
-
   const addTransaction = () => {
     if (!state.amount || !state.description) return;
 
