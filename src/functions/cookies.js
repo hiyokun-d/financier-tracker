@@ -1,9 +1,30 @@
 let name = "dataUser";
 
-export function addCookie(value) {
+export function addCookie(value, nameA = name) {
     // Set the cookie with an expiration date of 5 years from now
     const expires = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 5).toUTCString();
-    document.cookie = `${name}=${encodeURIComponent(value || '')}; expires=${expires}; path=/`;
+    document.cookie = `${nameA}=${encodeURIComponent(value || '')}; expires=${expires}; path=/`;
+}
+
+export function getCookieSize(name) {
+    // Get the cookie by name
+    let cookieValue = document.cookie.split('; ').find(row => row.startsWith(name + '='));
+
+    if (!cookieValue) {
+        return 0; // No cookie found
+    }
+
+    // Get the length of the cookie string (including name and value)
+    let size = cookieValue.length; // This gives the size in bytes since 1 char is 1 byte
+
+    return size;
+}
+
+export function isCookieFull(name) {
+    const cookieSizeLimit = 4096; // 4KB limit per cookie in most browsers
+    const currentCookieSize = getCookieSize(name);
+
+    return currentCookieSize >= cookieSizeLimit;
 }
 
 export function saveState(state) {

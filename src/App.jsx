@@ -36,8 +36,14 @@ const FinanceTracker = () => {
 
   // Save the updated state to the cookie whenever the state changes
   useEffect(() => {
-    saveState(state);
+    if (isCookieFull()) {
+      const newCookieName = `dataUser${Date.now()}`; // Generate a new cookie name
+      addCookie(JSON.stringify(state), newCookieName); // Add new cookie with serialized state
+    } else {
+      saveState(state); // Otherwise, save the state in the current cookie
+    }
   }, [state]);
+
 
   const addTransaction = () => {
     if (!state.amount || !state.description) return;
