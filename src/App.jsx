@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { TransactionForm } from './components/TransactionForm';
 import { BudgetStatus } from './components/BudgetStatus';
-import { saveState, updateState, loadState } from './functions/cookies';
+import { saveState, updateState, loadState, isCookieFull } from './functions/cookies';
 import LogsContainer from './components/LogsFinancie';
 
 // TODO: ADD ALL THE LOGS FOR THE SPENDING MECHANISM
